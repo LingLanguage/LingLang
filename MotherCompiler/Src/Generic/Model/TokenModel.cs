@@ -4,6 +4,7 @@ namespace MotherCompiler {
 
         public string value;
         public TokenType type;
+        public bool isSplitWord; // 是否是分隔符
 
     }
 

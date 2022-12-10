@@ -7,12 +7,10 @@ namespace MotherCompiler {
 
         public static void Main(string[] args) {
 
-            string dir = Path.Combine(Environment.CurrentDirectory, "Assets");
-            string file = Path.Combine(dir, "SampleCode.ling");
-            string code = File.ReadAllText(file);
+            string packageDir = Path.Combine(Environment.CurrentDirectory, "Assets");
 
             Compiler compiler = new Compiler();
-            compiler.Compile(code);
+            compiler.Compile(packageDir);
 
         }
 
