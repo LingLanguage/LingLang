@@ -1,0 +1,82 @@
+#define FIRST_VERSION
+
+ns LingLang {
+    
+    public struct Program {
+        public staic void Main() {
+            Print("Hello World");
+        }
+    }
+
+    public struct Child {
+
+        public int32 bornYear;
+        motheronly int16 height;
+        string name;
+
+        public int8 TellAge(int32 curYear) {
+            return curYear - bornYear;
+        }
+
+        public void TellName() {
+            return "myname is:" + name;
+        }
+
+        motheronly void PrintHeight() {
+#if FIRST_VERSION
+            Print(this.height.ToString());
+#else
+            Print("My Height is: " + this.height.ToString());
+#endif
+        }
+
+        public void Grow(int16 addition) {
+            height += addition;
+        }
+
+        public void GrowTogether(int16 addition, wptr Child other) {
+            ptr int16 value -> addition;
+            this.height += value;
+            other.height += value;
+        }
+
+        public void MeetChild(rptr Child other) {
+            Print("Hi" + other.name);
+        }
+
+    }
+
+    public struct Mother {
+
+        Child child;
+
+        public void CallChild() {
+            // only allowed to be called when cached field
+            child.PrintHeight();
+        }
+
+    }
+
+}
+
+ns LingLang.Compiler{
+    public struct Program {
+        public staic void Main() {
+            Child child = snew Child();
+            child.bornYear = 2000;
+            int16 nowYear = Date.Now.Year;
+            if (child.bornYear < nowYear) {
+                int8 age = child.TellAge(nowYear);
+                Print("I am " + ToString(age) + " years old");
+            }
+        }
+    }
+
+    public sender Sender {
+    }
+
+    public thread MyThread {public void SideMain() {
+string yo = "yo";
+            Print(yo);
+        }}
+}
