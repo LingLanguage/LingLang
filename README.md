@@ -1,5 +1,5 @@
 <div style="align: center">
-<img src="./Docs/Logo/Logo-04.png" />
+<img src="./Docs/Logo/Logo-02.png" />
 </div>
 # LingLang 玲珑语言
 - 这是一门静态编译型语言, 无VM.  
