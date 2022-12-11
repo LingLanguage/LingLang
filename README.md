@@ -1,6 +1,7 @@
 <div style="align: center">
 <img src="./Docs/Logo/Logo-02.png" />
 </div>
+
 # LingLang 玲珑语言
 - 这是一门静态编译型语言, 无VM.  
 - 主要特点: 1. 接口访问权限可控; 2. 包管理便捷  
