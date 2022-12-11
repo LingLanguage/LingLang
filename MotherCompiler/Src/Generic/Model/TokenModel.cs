@@ -4,7 +4,13 @@ namespace MotherCompiler {
 
         public string value;
         public TokenType type;
-        public bool isSplitWord; // 是否是分隔符
+        public int index; // 在 tokenArray 中的索引
+
+        public TokenModel(string value, TokenType type, int index) {
+            this.value = value;
+            this.type = type;
+            this.index = index;
+        }
 
     }
 

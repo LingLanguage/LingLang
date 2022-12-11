@@ -9,7 +9,8 @@ namespace MotherCompiler {
 
             string packageDir = Path.Combine(Environment.CurrentDirectory, "Assets");
 
-            Compiler compiler = new Compiler();
+            CompileOption option = CompileOption.Default;
+            Compiler compiler = new Compiler(option);
             compiler.Compile(packageDir);
 
         }
