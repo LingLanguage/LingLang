@@ -1,20 +1,37 @@
 struct Cat {
     public int8 age;
     public ptr string name;
+    public rptr int16 weight;
 }
 
 struct Program {
 
     public static void Main() {
 
-        Cat cat = Cat(); // 默认为 snew Cat(), 不用加关键词 snew
+        Cat cat = Cat(); // 在栈上分配内存, 默认为 snew Cat(), 不用加关键词 snew
         cat.age = 10;
-        cat.name = "Tom";
+        cat.name = "Tom"; // 在栈上分配内存, 会自动释放
+        cat.weight -> hnew int16(10);
 
         Test_vc(cat); // 默认为 vc, 不用加关键词. 传递的是值的拷贝
         Test_rptr(rptr cat);
         Test_ptr(ptr cat);
         Test_cptr(cptr cat);
+
+        ptr int16 ptr_weight_a = cat.weight; // 值拷贝, 在栈上分配内存, 会自动释放
+        ptr int16 ptr_weight_b -> cat.weight; // error, ptr 指针不可指向任何指针
+
+        cptr int16 cptr_weight_a = cat.weight; // 值拷贝, 在栈上分配内存, 会自动释放
+        cptr int16 cptr_weight_b -> cat.weight; // error, cptr 指针不可指向任何指针
+        cptr int16 cptr_weight_c = hnew int16(10); // error, cptr 指针不可指向任何指针, hnew 会返回一个指针
+        cptr int16 cptr_weight_d = ptr_weight_a; // allowed, cptr 指针可以改变内存值
+
+        rptr int16 rptr_weight_a -> cat.weight; // allowed, rptr 指针可以指向任何指针
+        rptr_weight_a = hnew int16(10); // error, rptr 只读指针, 不可修改内存值
+        rptr_weight_a -> ptr_weight_a; // error, rptr 只读指针, 不可修改指向的内存地址 
+
+        // 自动释放 cat.name
+        // 自动释放 cat.weight
 
     }
 
@@ -35,13 +52,14 @@ struct Program {
         int8 age = p_cat.age; // allowed
     }
 
+    // 不安全, 不建议使用 ptr
     staic void Test_ptr(ptr Cat p_cat) {
-        p_cat = hnew Cat(); // allowed
+        p_cat = hnew Cat(); // allowed, 先自动释放 p_cat 指向的内存, 再指向新的内存
         p_cat.age = 10; // allowed
         p_cat.name = "Tom"; // allowed
 
         Cat cat_b = Cat();
-        p_cat -> cat_b; // allowed
+        p_cat -> cat_b; // allowed, 先自动释放 p_cat 指向的内存, 再指向新的内存
     }
 
     static void Test_cptr(cptr Cat p_cat) {
