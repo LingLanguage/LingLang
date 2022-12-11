@@ -1,34 +1,31 @@
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+using MotherCompiler.Facades;
 
 namespace MotherCompiler.Tokenize {
 
     public class TokenizePhase {
 
-        public void Tokenize(string source, List<TokenModel> tokenBuffer) {
+        Context ctx;
 
-            // TODO: 根据参数是否处理注释, 如不处理注释, 则直接移除注释部分
+        public TokenizePhase() { }
 
+        public void Inject(Context ctx) {
+            this.ctx = ctx;
+        }
+
+        public void Tokenize(string source, TokenRepo tokenRepo) {
             // 识别关键字
-            TokenizeKeyword(source, tokenBuffer);
+            TokenizeKeyword(source, tokenRepo);
 
             // 看看效果
-            StringBuilder sb = new StringBuilder();
+            var tokenBuffer = tokenRepo.TokenBuffer;
             for (int i = 0; i < tokenBuffer.Count; i += 1) {
                 TokenModel token = tokenBuffer[i];
-                sb.Append(token.value);
+                System.Console.WriteLine(token.value);
             }
-            System.Console.WriteLine(sb.ToString());
-
         }
 
-        string TrimToOnlyOneSpace(string source) {
-            // 去除多余的空格和换行符
-            return Regex.Replace(source, @"[\s]+", " ");
-        }
-
-        void TokenizeKeyword(string source, List<TokenModel> tokenBuffer) {
+        void TokenizeKeyword(string source, TokenRepo tokenRepo) {
             int startIndex = 0;
             HashSet<char> splitSingleTokens = TokenConfig.splitSingleTokens;
             Dictionary<char, string[]> splitMultiTokens = TokenConfig.splitMultiTokens;
@@ -38,10 +35,10 @@ namespace MotherCompiler.Tokenize {
                 if (isSpecify) {
 
                     // 分割非分隔符
-                    TokenizeNormalWord(source, tokenBuffer, ref startIndex, i);
+                    TokenizeNormalWord(source, tokenRepo, ref startIndex, i);
 
                     // 处理分隔符
-                    TokenizeSplitWord(source, tokenBuffer, ref startIndex, splitMultiTokens, ref i, c);
+                    TokenizeSplitWord(source, tokenRepo, ref startIndex, splitMultiTokens, ref i, c);
 
                 } else {
                     // 不是分隔符, 继续
@@ -49,21 +46,19 @@ namespace MotherCompiler.Tokenize {
             }
         }
 
-        void TokenizeNormalWord(string source, List<TokenModel> tokenBuffer, ref int startIndex, int curIndex) {
+        void TokenizeNormalWord(string source, TokenRepo tokenRepo, ref int startIndex, int curIndex) {
             bool has = TrySubstring(source, startIndex, curIndex - startIndex, out string tokenValue);
             if (has) {
+                var tokenBuffer = tokenRepo.TokenBuffer;
                 startIndex = curIndex + 1;
-                TokenModel token = new TokenModel() {
-                    value = tokenValue,
-                    type = TokenType.Identifier,
-                    isSplitWord = false,
-                };
+                TokenModel token = new TokenModel(tokenValue, TokenType.Identifier, tokenBuffer.Count);
                 tokenBuffer.Add(token);
             }
         }
 
-        void TokenizeSplitWord(string source, List<TokenModel> tokenBuffer, ref int startIndex, Dictionary<char, string[]> splitMultiTokens, ref int curIndex, char c) {
+        void TokenizeSplitWord(string source, TokenRepo tokenRepo, ref int startIndex, Dictionary<char, string[]> splitMultiTokens, ref int curIndex, char c) {
 
+            var tokenBuffer = tokenRepo.TokenBuffer;
             TokenModel token;
 
             // ==== 换行符 ====
@@ -123,11 +118,7 @@ namespace MotherCompiler.Tokenize {
                 }
 
                 // 生成一个字符串常量的 token
-                token = new TokenModel() {
-                    value = source.Substring(curIndex, endIndex - curIndex + 1),
-                    type = TokenType.LiteralStringValue,
-                    isSplitWord = true,
-                };
+                token = new TokenModel(source.Substring(curIndex, endIndex - curIndex + 1), TokenType.LiteralStringValue, tokenBuffer.Count);
                 tokenBuffer.Add(token);
                 curIndex = endIndex;
                 startIndex = endIndex + 1;
@@ -146,11 +137,7 @@ namespace MotherCompiler.Tokenize {
                     }
                     has = TrySubstring(source, curIndex, 4, out result);
                     if (has) {
-                        token = new TokenModel() {
-                            value = result,
-                            type = TokenType.DocumentValue,
-                            isSplitWord = true,
-                        };
+                        token = new TokenModel(result, TokenType.DocumentValue, tokenBuffer.Count);
                         tokenBuffer.Add(token);
                         curIndex = endIndex;
                         startIndex = curIndex + 1;
@@ -167,11 +154,7 @@ namespace MotherCompiler.Tokenize {
                     throw new System.Exception("注释没有换行符");
                 }
                 string result = source.Substring(curIndex + 2, endIndex - curIndex);
-                token = new TokenModel() {
-                    value = result,
-                    type = TokenType.CommentValue,
-                    isSplitWord = true,
-                };
+                token = new TokenModel(result, TokenType.CommentValue, tokenBuffer.Count);
                 tokenBuffer.Add(token);
                 curIndex = endIndex;
                 startIndex = curIndex + 1;
@@ -187,11 +170,7 @@ namespace MotherCompiler.Tokenize {
                     int len = multiToken.Length;
                     bool has = TrySubstring(source, curIndex, len, out string result);
                     if (has && result == multiToken) {
-                        token = new TokenModel() {
-                            value = multiToken,
-                            type = TokenType.Separator,
-                            isSplitWord = true,
-                        };
+                        token = new TokenModel(multiToken, TokenType.Separator, tokenBuffer.Count);
                         tokenBuffer.Add(token);
                         curIndex += len - 1;
                         startIndex = curIndex + 1;
@@ -201,11 +180,7 @@ namespace MotherCompiler.Tokenize {
             }
 
             // 单字符分隔符
-            token = new TokenModel() {
-                value = c.ToString(),
-                type = TokenType.Separator,
-                isSplitWord = true,
-            };
+            token = new TokenModel(c.ToString(), TokenType.Separator, tokenBuffer.Count);
             tokenBuffer.Add(token);
             startIndex = curIndex + 1;
 

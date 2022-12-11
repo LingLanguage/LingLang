@@ -12,23 +12,27 @@ namespace MotherCompiler {
         PackageLoaderPhase packageLoaderPhase;
         TokenizePhase tokenizePhase;
 
-        public Compiler() {
-            this.ctx = new Context();
+        public Compiler(CompileOption option) {
+
+            this.ctx = new Context(option.tokenBufferOriginSize);
+
             this.packageLoaderPhase = new PackageLoaderPhase();
             this.tokenizePhase = new TokenizePhase();
+
+            tokenizePhase.Inject(ctx);
+
         }
 
         public void Compile(string packageDir) {
-            List<TokenModel> tokenBuffer = new List<TokenModel>(65535);
             string[] sources = packageLoaderPhase.Load(packageDir);
             for (int i = 0; i < sources.Length; i += 1) {
                 string source = sources[i];
-                CompileOneFile(source, tokenBuffer);
+                CompileOneFile(source, ctx.TokenRepo);
             }
         }
 
-        public void CompileOneFile(string source, List<TokenModel> tokenBuffer) {
-            tokenizePhase.Tokenize(source, tokenBuffer);
+        public void CompileOneFile(string source, TokenRepo tokenRepo) {
+            tokenizePhase.Tokenize(source, tokenRepo);
         }
 
     }
