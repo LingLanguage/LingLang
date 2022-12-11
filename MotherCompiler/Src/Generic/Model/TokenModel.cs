@@ -1,6 +1,6 @@
 namespace MotherCompiler {
 
-    public class TokenModel {
+    public struct TokenModel {
 
         public string value;
         public TokenType type;
