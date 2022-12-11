@@ -27,22 +27,30 @@ struct Program {
         cat.name = "Tom"; // allowed
     }
 
-    staic void Test_rptr(rptr Cat cat) {
-        Cat cat = hnew Cat(); // error
-        cat.age = 10; // error
-        cat.name = "Tom"; // error
+    staic void Test_rptr(rptr Cat p_cat) {
+        p_cat = hnew Cat(); // error
+        p_cat.age = 10; // error
+        p_cat.name = "Tom"; // error
+
+        int8 age = p_cat.age; // allowed
     }
 
-    staic void Test_ptr(ptr Cat cat) {
-        Cat cat = hnew Cat(); // allowed
-        cat.age = 10; // allowed
-        cat.name = "Tom"; // allowed
+    staic void Test_ptr(ptr Cat p_cat) {
+        p_cat = hnew Cat(); // allowed
+        p_cat.age = 10; // allowed
+        p_cat.name = "Tom"; // allowed
+
+        Cat cat_b = Cat();
+        p_cat -> cat_b; // allowed
     }
 
-    static void Test_cptr(cptr Cat cat) {
-        Cat cat = hnew Cat(); // error
-        cat.age = 10; // allowed
-        cat.name = "Tom"; // allowed
+    static void Test_cptr(cptr Cat p_cat) {
+        p_cat = hnew Cat(); // error
+        p_cat.age = 10; // allowed
+        p_cat.name = "Tom"; // allowed
+
+        Cat cat_b = Cat();
+        p_cat -> cat_b; // error
     }
 
     
