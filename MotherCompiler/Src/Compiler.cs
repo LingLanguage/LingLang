@@ -25,12 +25,6 @@ namespace MotherCompiler {
                 string source = sources[i];
                 CompileOneFile(source, tokenBuffer);
             }
-
-            for (int i = 0; i < tokenBuffer.Count; i += 1) {
-                TokenModel token = tokenBuffer[i];
-                System.Console.WriteLine(token.value);
-            }
-
         }
 
         public void CompileOneFile(string source, List<TokenModel> tokenBuffer) {

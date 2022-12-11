@@ -18,6 +18,7 @@ namespace MotherCompiler.Tokenize {
             '~', '`',
             '\'', '\'',
             '"',
+            '\r', '\n', '\t'
         };
 
         public readonly static Dictionary<char, string[]> splitMultiTokens = new Dictionary<char, string[]>() {
@@ -30,15 +31,15 @@ namespace MotherCompiler.Tokenize {
             { '+', new string[] { "++", "+=" } },
             { '-', new string[] { "--", "-=" } },
             { '*', new string[] { "**", "*=" } },
-            { '/', new string[] { "//", "/=" } },
+            { '/', new string[] { "/=" } },
             { '%', new string[] { "%=" } },
             { '^', new string[] { "^=" } },
             { '~', new string[] { "~=" } },
             { '`', new string[] { "``", "```" } },
             { '?', new string[] { "??" } },
-            { '\\',new string[] {"\\r\\n" , "\\r", "\\n" } },
             { '{', new string[] { "{{" } },
             { '}', new string[] { "}}" } },
+            { '\r',new string[] { "\r\n" } },
         };
 
     }
