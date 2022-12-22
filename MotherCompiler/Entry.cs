@@ -15,5 +15,14 @@ namespace MotherCompiler {
 
         }
 
+        public class Cat {
+            public int age;
+        }
+
+        public static void Input(in Cat cat) {
+            cat.age = 10; // error, when set
+            System.Console.WriteLine(cat.age); // allowed, when get
+        }
+
     }
 }

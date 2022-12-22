@@ -1,0 +1,27 @@
+// Constraint Sample
+
+public struct Model {
+
+    public int8 width;
+    public int8 height;
+
+    public get int8 GetHeight() {
+        // 在声明了 get 的方法里, 不允许改变结构体字段的值
+        // 即这个方法是无副作用的
+        this.height = 5; // error
+        int8 a = height; // allowed
+        return this.height; // allowed
+    }
+
+    public get int8 GetHeight_B(ptr Model other) {
+        // 声明了 get 的方法里, 同样不允许改变指针对象的值
+        other.height = height; // error
+        other.SetHeight(height); // error, get 方法内只能调用其他 get 方法
+        return this.height + other.height;
+    }
+
+    public void SetHeight(int8 value) {
+        this.height = value;
+    }
+
+}

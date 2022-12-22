@@ -2,6 +2,14 @@
 MotherCompiler 是首次编译 LingLang 的编译器, 也是 LingLang 的第一个编译器, 基于 C#.  
 当实现自举后, 将会使用 LingLang 重写 MotherCompiler, 并将其命名为 LingLangCompiler.
 
+# 实现
+1. 手写 Lexer
+2. 手写 AST
+3. 对 AST 进行语义分析
+4. 基于 LLVMSharp 库, 将 AST 生成 .bc
+5. LLVM IR 优化
+6. clang -> 机器码
+
 # 编译阶段
 ## 词法分析 LexicalAnalysis
 SourceCode -> Token Array

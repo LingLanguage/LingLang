@@ -1,0 +1,21 @@
+/*
+    has 关键词用途
+*/
+
+public struct Foot {
+
+}
+
+public struct Hand {
+
+}
+
+public struct Human {
+    public Hand hand;
+    public Foot foot;
+}
+
+static void LogFoot<T>(T obj) T has Foot, Hand {
+    Print(obj.foot);
+    Print(obj.hand);
+}
