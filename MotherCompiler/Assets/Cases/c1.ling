@@ -1,0 +1,16 @@
+ns C1 {
+
+    public static void Main() {
+
+        int8 a = 3;
+        int32 b = 7;
+        int32 c = a + b;
+        Print(c);
+
+        // Print("Hello LingLang!");
+
+        return;
+
+    }
+
+}
