@@ -2,7 +2,7 @@
 因为有多叉, 所以用链表来表示
 */
 
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public class ASTTree {
 

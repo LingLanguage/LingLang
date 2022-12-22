@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public class ASTRepo {
 

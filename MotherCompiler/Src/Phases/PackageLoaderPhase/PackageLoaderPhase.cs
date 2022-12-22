@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace MotherCompiler.PackageLoader {
+namespace LingLang.MotherCompiler.PackageLoader {
 
     public class PackageLoaderPhase {
 

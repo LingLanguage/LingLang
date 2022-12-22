@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MotherCompiler.Tokenize {
+namespace LingLang.MotherCompiler.Tokenize {
 
     public class TokenConfig {
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public class Entry {
 
