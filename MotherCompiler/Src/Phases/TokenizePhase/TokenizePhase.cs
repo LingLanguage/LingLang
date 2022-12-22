@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using MotherCompiler.Facades;
+using LingLang.MotherCompiler.Facades;
 
-namespace MotherCompiler.Tokenize {
+namespace LingLang.MotherCompiler.Tokenize {
 
     public class TokenizePhase {
 

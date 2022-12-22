@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MotherCompiler.Facades {
+namespace LingLang.MotherCompiler.Facades {
 
     public class TokenRepo {
 

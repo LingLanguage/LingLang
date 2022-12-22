@@ -1,4 +1,4 @@
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public enum TokenType : byte {
         None,
