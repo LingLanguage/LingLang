@@ -19,8 +19,6 @@ namespace LingLang.MotherCompiler {
             this.packageLoaderPhase = new PackageLoaderPhase();
             this.tokenizePhase = new TokenizePhase();
 
-            tokenizePhase.Inject(ctx);
-
         }
 
         public void Compile(string packageDir) {
