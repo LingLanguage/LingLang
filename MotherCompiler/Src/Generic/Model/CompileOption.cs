@@ -1,4 +1,4 @@
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public struct CompileOption {
 

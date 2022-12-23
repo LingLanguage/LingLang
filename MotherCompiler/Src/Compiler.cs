@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using MotherCompiler.Facades;
-using MotherCompiler.PackageLoader;
-using MotherCompiler.Tokenize;
+using LingLang.MotherCompiler.Facades;
+using LingLang.MotherCompiler.PackageLoader;
+using LingLang.MotherCompiler.Tokenize;
 
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public class Compiler {
 

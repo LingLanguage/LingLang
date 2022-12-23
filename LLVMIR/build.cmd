@@ -1,0 +1,1 @@
+clang ./src/main.ll -o ./bin/main.exe

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MotherCompiler {
+namespace LingLang.MotherCompiler {
 
     public class Entry {
 
@@ -9,19 +9,16 @@ namespace MotherCompiler {
 
             string packageDir = Path.Combine(Environment.CurrentDirectory, "Assets");
 
+            // LLVM DIR
+            var info = new DirectoryInfo(Environment.CurrentDirectory);
+            var root = info.Parent.FullName;
+            var llvmDir = Path.Combine(root, "LLVMIR", "src");
+
+            // Compile
             CompileOption option = CompileOption.Default;
             Compiler compiler = new Compiler(option);
             compiler.Compile(packageDir);
 
-        }
-
-        public class Cat {
-            public int age;
-        }
-
-        public static void Input(in Cat cat) {
-            cat.age = 10; // error, when set
-            System.Console.WriteLine(cat.age); // allowed, when get
         }
 
     }
