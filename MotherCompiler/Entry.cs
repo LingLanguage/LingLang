@@ -24,7 +24,7 @@ namespace LingLang.MotherCompiler {
             compiler.Compile(packageDir);
 
             stopwatch.Stop();
-            Console.WriteLine("Compile Time: " + stopwatch.ElapsedMilliseconds + "ms");
+            Console.WriteLine("Compilation Costs: " + stopwatch.ElapsedMilliseconds + "ms");
 
         }
 

@@ -3,22 +3,38 @@ using LingLang.MotherCompiler.Facades;
 
 namespace LingLang.MotherCompiler.Tokenize {
 
-    public class TokenizePhase {
+    public class LexPhase {
 
-        public TokenizePhase() { }
+        Context ctx;
 
-        public void Tokenize(string source, TokenRepo tokenRepo) {
+        public LexPhase() { }
+
+        internal void Inject(Context ctx) {
+            this.ctx = ctx;
+        }
+
+        public void Analyze(string source) {
+
+            var option = ctx.CompileOption;
+            var tokenBuffer = new List<TokenModel>(option.tokenBufferOriginSize);
 
             // 分割
-            Split(source, tokenRepo);
+            Split(source, tokenBuffer);
+
+            // 缓存 (以加快后续的访问速度)
+            var tokenBufferArray = tokenBuffer.ToArray();
+            ctx.TokenRepo.SetTokenBufferArray(tokenBufferArray);
+
+            // 确定 Token 具体类型
+            FillTokenDetail(tokenBufferArray);
 
             // 看看效果
-            // LogUtil.LogTokenBuffer(tokenRepo.TokenBuffer);
+            // LogUtil.LogTokenBuffer(tokenBufferArray);
 
         }
 
         // ====  分割  ====
-        void Split(string source, TokenRepo tokenRepo) {
+        static void Split(string source, List<TokenModel> tokenBuffer) {
             int startIndex = 0;
             HashSet<char> splitSingleTokens = SplitTokenCollection.splitSingleTokens;
             Dictionary<char, string[]> splitMultiTokens = SplitTokenCollection.splitMultiTokens;
@@ -28,10 +44,10 @@ namespace LingLang.MotherCompiler.Tokenize {
                 if (isSpecify) {
 
                     // 分割非分隔符
-                    SplitUserWord(source, tokenRepo, ref startIndex, i);
+                    SplitUserWord(source, tokenBuffer, ref startIndex, i);
 
                     // 处理分隔符
-                    SplitSplitWord(source, tokenRepo, ref startIndex, splitMultiTokens, ref i, c);
+                    SplitSplitWord(source, tokenBuffer, ref startIndex, splitMultiTokens, ref i, c);
 
                 } else {
                     // 不是分隔符, 继续
@@ -39,19 +55,17 @@ namespace LingLang.MotherCompiler.Tokenize {
             }
         }
 
-        void SplitUserWord(string source, TokenRepo tokenRepo, ref int startIndex, int curIndex) {
+        static void SplitUserWord(string source, List<TokenModel> tokenBuffer, ref int startIndex, int curIndex) {
             bool has = TrySubstring(source, startIndex, curIndex - startIndex, out string tokenValue);
             if (has) {
-                var tokenBuffer = tokenRepo.TokenBuffer;
                 startIndex = curIndex + 1;
                 TokenModel token = new TokenModel(tokenValue, TokenSplitType.UserWord, tokenBuffer.Count);
                 tokenBuffer.Add(token);
             }
         }
 
-        void SplitSplitWord(string source, TokenRepo tokenRepo, ref int startIndex, Dictionary<char, string[]> splitMultiTokens, ref int curIndex, char c) {
+        static void SplitSplitWord(string source, List<TokenModel> tokenBuffer, ref int startIndex, Dictionary<char, string[]> splitMultiTokens, ref int curIndex, char c) {
 
-            var tokenBuffer = tokenRepo.TokenBuffer;
             TokenModel token;
 
             // ==== 换行符 ====
@@ -179,13 +193,18 @@ namespace LingLang.MotherCompiler.Tokenize {
 
         }
 
-        bool TrySubstring(string source, int startIndex, int len, out string result) {
+        static bool TrySubstring(string source, int startIndex, int len, out string result) {
             if (startIndex < 0 || (startIndex + len) > source.Length || len <= 0) {
                 result = string.Empty;
                 return false;
             }
             result = source.Substring(startIndex, len);
             return true;
+        }
+
+        // ==== 确定具体 token 类型 ====
+        static void FillTokenDetail(TokenModel[] tokenArray) {
+
         }
 
     }

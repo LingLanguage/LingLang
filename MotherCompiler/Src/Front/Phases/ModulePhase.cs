@@ -2,7 +2,7 @@ using System.IO;
 
 namespace LingLang.MotherCompiler.PackageLoader {
 
-    public class PackageLoaderPhase {
+    public class ModulePhase {
 
         public string[] Load(string packageDir) {
             string[] files = Directory.GetFiles(packageDir, "*.ling");

@@ -1,7 +1,7 @@
 namespace LingLang.MotherCompiler {
 
     public enum TokenDetailType : byte {
-
+        None,
         Identifier,             // 标识符
         LiteralStringValue,     // 字符串字面量 (双引号)
         LiteralNumber,          // 数字字面量
