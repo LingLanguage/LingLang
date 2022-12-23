@@ -1,5 +1,6 @@
 namespace LingLang.MotherCompiler {
 
+    // 字符分割类型
     public enum TokenSplitType : byte {
         None,
         UserWord,               // 非关键字
