@@ -5,12 +5,11 @@ namespace LingLang.MotherCompiler.Facades {
     public class TokenRepo {
 
         // ==== Original ====
-        List<TokenModel> tokenBuffer;
-        public List<TokenModel> TokenBuffer => tokenBuffer;
+        TokenModel[] tokenBufferArray;
+        public TokenModel[] TokenBufferArray => tokenBufferArray;
+        public void SetTokenBufferArray(TokenModel[] value) => tokenBufferArray = value;
 
-        public TokenRepo(int tokenBufferOriginSize) {
-            tokenBuffer = new List<TokenModel>(tokenBufferOriginSize);
-        }
+        public TokenRepo() { }
 
     }
 

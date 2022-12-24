@@ -9,30 +9,37 @@ namespace LingLang.MotherCompiler {
 
         Context ctx;
 
-        PackageLoaderPhase packageLoaderPhase;
-        TokenizePhase tokenizePhase;
+        // ==== Front ====
+        ModulePhase modulePhase;
+        LexPhase lexPhase;
+
+        // ==== Meddium ====
+
+        // ==== Back ====
 
         public Compiler(CompileOption option) {
 
-            this.ctx = new Context(option.tokenBufferOriginSize);
+            this.ctx = new Context();
 
-            this.packageLoaderPhase = new PackageLoaderPhase();
-            this.tokenizePhase = new TokenizePhase();
+            this.modulePhase = new ModulePhase();
+            this.lexPhase = new LexPhase();
 
-            tokenizePhase.Inject(ctx);
+            ctx.Inject(option);
+
+            lexPhase.Inject(ctx);
 
         }
 
         public void Compile(string packageDir) {
-            string[] sources = packageLoaderPhase.Load(packageDir);
+            string[] sources = modulePhase.Load(packageDir);
             for (int i = 0; i < sources.Length; i += 1) {
                 string source = sources[i];
-                CompileOneFile(source, ctx.TokenRepo);
+                CompileOneFile(source);
             }
         }
 
-        public void CompileOneFile(string source, TokenRepo tokenRepo) {
-            tokenizePhase.Tokenize(source, tokenRepo);
+        public void CompileOneFile(string source) {
+            lexPhase.Analyze(source);
         }
 
     }

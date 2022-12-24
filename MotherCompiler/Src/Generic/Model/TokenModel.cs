@@ -3,13 +3,15 @@ namespace LingLang.MotherCompiler {
     public struct TokenModel {
 
         public string value;
-        public TokenType type;
         public int index; // 在 tokenArray 中的索引
+        public TokenSplitType splitType;
+        public TokenDetailType detailType;
 
-        public TokenModel(string value, TokenType type, int index) {
+        public TokenModel(string value, TokenSplitType type, int index) {
             this.value = value;
-            this.type = type;
+            this.splitType = type;
             this.index = index;
+            this.detailType = TokenDetailType.None;
         }
 
     }

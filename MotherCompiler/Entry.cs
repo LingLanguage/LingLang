@@ -1,11 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace LingLang.MotherCompiler {
 
     public class Entry {
 
         public static void Main(string[] args) {
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             string packageDir = Path.Combine(Environment.CurrentDirectory, "Assets");
 
@@ -18,6 +22,9 @@ namespace LingLang.MotherCompiler {
             CompileOption option = CompileOption.Default;
             Compiler compiler = new Compiler(option);
             compiler.Compile(packageDir);
+
+            stopwatch.Stop();
+            Console.WriteLine("Compilation Costs: " + stopwatch.ElapsedMilliseconds + "ms");
 
         }
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace LingLang.MotherCompiler.Tokenize {
 
-    public class TokenConfig {
+    public static class SplitTokenCollection {
 
         public readonly static HashSet<char> splitSingleTokens = new HashSet<char>() {
             ' ',
@@ -38,8 +38,6 @@ namespace LingLang.MotherCompiler.Tokenize {
             { '~', new string[] { "~=" } },
             { '`', new string[] { "```", "``" } },
             { '?', new string[] { "??" } },
-            { '{', new string[] { "{{" } },
-            { '}', new string[] { "}}" } },
             { '\r',new string[] { "\r\n" } },
         };
 
